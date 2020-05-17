@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static "css/login.css" %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <img src="{% static "img/unknown_user.png" %}" id="icon" alt="User Icon" />
+    </div>
+
+    <!-- Login Form -->
+    <form method="post">
+          {% csrf_token %}
+        <div  class="col-md-16 centering" >
+          {{ form.username | as_crispy_field  }}
+        </div>
+        <div class="col-md-16 centering "  >
+          {{ form.password | as_crispy_field  }}
+        </div>
+      <input type="submit" class="fadeIn fourth" value="Log In">
+
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" href="#">Forgot Password?</a>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+

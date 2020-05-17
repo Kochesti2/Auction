@@ -1,0 +1,73 @@
+{% extends 'base.html' %}#
+{% load static %}
+
+{% block title %}Article detail{% endblock %}
+
+{% block head %}
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
+    <link rel="stylesheet" type="text/css" href="{% static "products/css/productPage.css" %}">
+    <script src="{% static "products/js/productPage.js" %}" type="text/javascript"></script>
+
+    {#    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>#}
+
+
+{% endblock %}
+
+{% block content %}
+    <h1>Product name: {{ object.name }}</h1>
+
+
+    <div class="container-fluid px-sm-1 py-5 mx-auto">
+        <div class="row justify-content-center">
+            <div class="d-flex">
+                <div class="flex-child">
+                    <div class="card">
+                        <div class="d-flex flex-column thumbnails">
+                            <div id="f1" class="tb tb-active"><img class="thumbnail-img fit-image"
+                                                                   src="https://i.imgur.com/wL1uRBk.jpg"></div>
+                            <div id="f2" class="tb"><img class="thumbnail-img fit-image"
+                                                         src="https://i.imgur.com/3NusNP2.jpg"></div>
+                            <div id="f3" class="tb"><img class="thumbnail-img fit-image"
+                                                         src="https://i.imgur.com/pXUPOVR.jpg"></div>
+                            <div id="f4" class="tb"><img class="thumbnail-img fit-image"
+                                                         src="https://i.imgur.com/xX5Qmsa.jpg"></div>
+                        </div>
+                        <fieldset id="f11" class="active">
+                            <div class="product-pic"><img class="pic0" src="https://i.imgur.com/wL1uRBk.jpg"></div>
+                        </fieldset>
+                        <fieldset id="f21" class="">
+                            <div class="product-pic"><img class="pic0" src="https://i.imgur.com/3NusNP2.jpg"></div>
+                        </fieldset>
+                        <fieldset id="f31" class="">
+                            <div class="product-pic"><img class="pic0" src="https://i.imgur.com/pXUPOVR.jpg"></div>
+                        </fieldset>
+                        <fieldset id="f41" class="">
+                            <div class="product-pic"><img class="pic0" src="https://i.imgur.com/xX5Qmsa.jpg"></div>
+                        </fieldset>
+
+                    </div>
+                </div>
+                <div class="flex-child green card" style="width:400px">
+                    <img class="card-img-top" src="img_avatar1.png" alt="Card image">
+                    <div class="card-body">
+                        <h4 class="card-title">Seller {{   object.profile.user.first_name | title }} {{  object.profile.user.last_name | title }}</h4>
+                        <p class="card-text">Some example text.</p>
+                        <a href="#" class="btn btn-primary">Bid</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {#    <div class="card" style="width:400px">#}
+    {#  <img class="card-img-top" src="img_avatar1.png" alt="Card image">#}
+    {#  <div class="card-body">#}
+    {#    <h4 class="card-title">John Doe</h4>#}
+    {#    <p class="card-text">Some example text.</p>#}
+    {#    <a href="#" class="btn btn-primary">See Profile</a>#}
+    {#  </div>#}
+    {#</div>#}
+{% endblock %}

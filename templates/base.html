@@ -1,0 +1,122 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- FontAwesome CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+          crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+{#    <link rel="stylesheet"#}
+{#          href="{% static 'css/style.css' %}">#}
+{#    <title>{% block title %}{% endblock %}</title>#}
+    {% block head %}
+
+    {% endblock %}
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Auction</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        {#        <a class="navbar-brand" href="#">#}
+        {#            <img src="static/img/hammer.png" alt="">#}
+        {#        </a>#}
+        <ul class="navbar-nav mr-auto">
+
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            {% if user.is_authenticated %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'home' %}">My page <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Bids
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Current auctions</a>
+                        <div class="dropdown-divider"></div>
+                         <a class="dropdown-item" href="#">Won auctions</a>
+                        <a class="dropdown-item" href="#">Lost auctions</a>
+                    </div>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Sell <span class="sr-only">(current)</span></a>
+                </li>
+                {% if not user.is_premium %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="#" style="color:red;">Get premium <span class="sr-only">(current)</span></a>
+                </li>
+                {% endif %}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="#">Link</a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link disabled" href="#">Disabled</a>#}
+{#                </li>#}
+            {% endif %}
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'about_view' %}">About <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+        {% if not user.is_authenticated %}
+            <form class="form-inline my-2 my-lg-0">
+                <div class=" card-body text-center"><a href="/users/create">Register</a></div>
+            </form>
+            <form class="form-inline my-2 my-lg-0" action="{% url 'login' %}">
+            <button class="btn btn-outline-primary my-2 my-sm-0">Log In</button>
+            </form>
+        {% else %}
+            <form class="form-inline my-2 my-lg-0" action="{% url 'logout' %}">
+                <button class="btn btn-outline-dark">Log Out</button>
+                <a href="/home">
+
+            </form>
+        {% endif %}
+
+        {#        <form class="form-inline my-2 my-lg-0">#}
+        {#            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">#}
+        {#            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>#}
+        {#        </form>#}
+{#        </form>#}
+    </div>
+</nav>
+
+
+<div id="site-main-page" class="container mt-n1 mt-md-3">
+    {% block content %}
+
+    {% endblock %}
+</div>
+
+{#<!-- Optional JavaScript -->#}
+{#<!-- jQuery first, then Popper.js, then Bootstrap JS -->#}
+{#<script#}
+{#        src="https://code.jquery.com/jquery-3.4.1.min.js"#}
+{#        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="#}
+{#        crossorigin="anonymous"></script>#}
+{#<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"#}
+{#        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"#}
+{#        crossorigin="anonymous"></script>#}
+{#<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"#}
+{#        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"#}
+{#        crossorigin="anonymous"></script>#}
+{#</body>#}
+</html>

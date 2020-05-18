@@ -75,3 +75,11 @@ class UserAdminChangeForm(forms.ModelForm):
         # field does not have access to the initial value
         return self.initial["password"]
 
+
+class new_auction_form(forms.Form):
+    name    = forms.CharField()
+    descr  = forms.CharField()
+    price      = forms.DecimalField(decimal_places=2,max_digits=10)
+    min_increment  = forms.DecimalField(decimal_places=2,max_digits=5)
+    # init_date   = forms.
+    end_date  = forms.DateField()

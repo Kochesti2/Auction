@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from users.models import Product
+from products.models import Product
 
 def homeView(request):
     # if request.user.is_authenticated:

@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 # Register your models here.
 from users.forms import UserAdminChangeForm, UserAdminCreationForm
-from users.models import Profile, Product
+from users.models import Profile
 
 User = get_user_model()
 
@@ -40,7 +40,6 @@ class UserAdmin(BaseUserAdmin):
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Profile)
-admin.site.register(Product)
 
 # Remove Group Model from admin. We're not using it.
 admin.site.unregister(Group)

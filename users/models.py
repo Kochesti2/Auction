@@ -126,28 +126,3 @@ class Profile(models.Model):
 
 
 
-
-class Product(models.Model):
-    name = models.CharField(max_length=254)
-    description = models.CharField(max_length=500)
-    min_increment = models.DecimalField(decimal_places=2, max_digits=10,default=0.5)
-    init_date = models.DateField(default=datetime.now, blank=True)
-    end_date = models.DateField()
-    winner = models.CharField(max_length=254, blank = True,null=True)
-    final_price = models.DecimalField(decimal_places=2, max_digits=10, blank = True,null=True)
-    images = models.ImageField()
-    rating = models.FloatField(default = 0)
-
-    user = models.ManyToManyField(User)
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-
-# def get_image_filename(instance, filename):
-#     name = instance.product.name
-#     slug = slugify(name)
-#     return "post_images/%s-%s" % (slug, filename)
-#
-#
-# class Images(models.Model):
-#     post = models.ForeignKey(Post, default=None)
-#     image = models.ImageField(upload_to=get_image_filename,
-#                               verbose_name='Image')

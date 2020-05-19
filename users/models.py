@@ -122,7 +122,7 @@ class Profile(models.Model):
     street = models.CharField(max_length=254)
     zip_code = models.CharField(max_length=20)
     rating = models.DecimalField(max_digits=5, decimal_places=2,blank = True,null=True)
-    photo = models.ImageField(upload_to=get_image_path, blank=True, null=True)
+    photo = models.ImageField(upload_to='photos', blank=True, null=True)
 
 
 

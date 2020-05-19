@@ -1,7 +1,11 @@
+from functools import partial
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
+from users.models import Profile
 
 User = get_user_model()
 
@@ -75,11 +79,32 @@ class UserAdminChangeForm(forms.ModelForm):
         # field does not have access to the initial value
         return self.initial["password"]
 
+DateInput = partial(forms.DateInput, {'class': 'datepicker'})
 
 class new_auction_form(forms.Form):
     name    = forms.CharField()
-    descr  = forms.CharField()
+    description  = forms.CharField(widget=forms.Textarea)
     price      = forms.DecimalField(decimal_places=2,max_digits=10)
     min_increment  = forms.DecimalField(decimal_places=2,max_digits=5)
-    # init_date   = forms.
-    end_date  = forms.DateField()
+    end_date = forms.DateField(widget=DateInput())
+
+
+
+
+# class Profile_user_form(forms.Form):
+#     country    = forms.CharField()
+#     city    = forms.CharField()
+#     street      = forms.CharField()
+#     zip_code  = forms.CharField()
+#     photo = forms.ImageField(required=False)
+
+class Profile_user_form():
+
+    helper = FormHelper()
+    helper.form_id = 'profile-crispy-form'
+    helper.form_method = 'POST'
+    helper.add_input(Submit('submit', 'Save'))
+
+    class Meta:
+        model = Profile
+        fields = ('first_name', 'middle_name', 'last_name')

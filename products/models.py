@@ -13,15 +13,27 @@ class Product(models.Model):
     description = models.CharField(max_length=500)
     price = models.DecimalField(decimal_places=2, max_digits=10)
     min_increment = models.DecimalField(decimal_places=2, max_digits=10,default=0.5)
-    init_date = models.DateField(default=datetime.now, blank=True)
     end_date = models.DateField()
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    init_date = models.DateField(default=datetime.now, blank=True)
     winner = models.CharField(max_length=254, blank = True,null=True)
     final_price = models.DecimalField(decimal_places=2, max_digits=10, blank = True,null=True)
-    images = models.ImageField(default='default.png',blank=True)
+    # # images = models.ImageField(default='default.png',blank=True)
     rating = models.FloatField(default = 0,blank = True,null=True)
-
     user = models.ManyToManyField(User,blank = True)#interested
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+
+    # def save_product(self, name, description, price, min_increment, end_date, profile):
+    #     prod = self.create_product(
+    #             name,
+    #             description,
+    #             price,
+    #             min_increment,
+    #             end_date,
+    #             profile,
+    #             init_date = datetime.now(),
+    #     )
+    #     return prod
 
 
 # def get_image_filename(instance, filename):

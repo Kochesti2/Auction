@@ -1,12 +1,15 @@
 from django.contrib.auth import get_user_model, logout
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpRequest
+from django.http import HttpResponseRedirect, HttpRequest, Http404
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 from django.contrib.auth.decorators import login_required
+
+
 from products.models import Product, ProductImage
 from django.contrib.auth.decorators import login_required
 
@@ -42,7 +45,8 @@ from django.contrib.auth.decorators import login_required
 #     return render(request, "users/user_profile_create.html", context)
 #
 
-from users.forms import RegisterForm, new_auction_form
+from users.forms import RegisterForm, new_auction_form, Profile_user_form
+from users.models import Profile
 
 User = get_user_model()
 def register_page(request):
@@ -69,28 +73,83 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect("/")
 
-# @login_required
+@login_required
 def new_auction_page(request):
     print(request.method)
     form = new_auction_form(request.POST or None)
     context = {
         "form": form
     }
-    print(Product.name)
+
+    try:
+        prof = Profile.objects.get(id=request.user.id)
+    except:
+        # return HttpResponseRedirect('/users/profile')
+        raise Http404
+
     if form.is_valid():
         name  = form.cleaned_data.get("name")
-        descr = form.cleaned_data.get("descr")
+        description = form.cleaned_data.get("description")
         price = form.cleaned_data.get("price")
         min_increment = form.cleaned_data.get("min_increment")
         end_date = form.cleaned_data.get("end_date")
-        Product.objects.create(name,descr,price,min_increment,end_date,User.profile)
+        p = Product(name=name,description= description,price=price,min_increment=min_increment,end_date=end_date,profile = prof)
+        p.save()
 
-        # for file in request.FILES.getlist('images'):
-        #     instance = ProductImage(
-        #         product=ProductImage.objects.get('''request.user.id'''),
-        #         image=file
-        #     )
-        #     instance.save()
+        for file in request.FILES.getlist('images'):
+            instance = ProductImage(
+                product=ProductImage.objects.get(request.user.id),
+                image=file
+            )
+            instance.save()
         return HttpResponseRedirect('/')
 
     return render(request, "users/new_auction.html", context)
+
+
+
+
+
+
+# @login_required
+# def PersonChange(request):
+#     form = Profile_user_form(request.POST)
+#
+#
+#     try:
+#         usr = request.user
+#     except:
+#         # return HttpResponseRedirect('/users/profile')
+#         raise Http404
+#
+#     if form.is_valid():
+#         country  = form.cleaned_data.get("country")
+#         city = form.cleaned_data.get("city")
+#         street = form.cleaned_data.get("street")
+#         zip_code = form.cleaned_data.get("zip_code")
+#         # image = form.cleaned_data.get("image")
+#         p = Profile(user=usr,country=country,city= city,street=street,zip_code=zip_code)
+#         try:
+#             p.save()
+#         except:
+#             print("can't save")
+#
+#         return HttpResponseRedirect('/')
+#     else:
+#         form = Profile_user_form()
+#
+#     context = {
+#         "form": form
+#     }
+#
+#     return render(request, "users/profile_page.html", context)
+
+
+
+
+class PersonChange(UpdateView,LoginRequiredMixin):
+    model = Profile
+    template_name = 'users/profile_page.html'
+    form_class = Profile_user_form
+    # fields = ('first_name', 'middle_name', 'last_name')
+    success_url = reverse_lazy('profileit')

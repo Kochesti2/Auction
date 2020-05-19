@@ -2,48 +2,20 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% load crispy_forms_filters %}
-{#{% load media %}#}
 
 {% block title %}
     Initialize Auction
 {% endblock %}
 
 {% block head %}
-
-
-        <!-- Inline CSS based on choices in "Settings" tab -->
-        <style>.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form {
-            font-family: Arial, Helvetica, sans-serif;
-            color: black
-        }
-
-        .bootstrap-iso form button, .bootstrap-iso form button:hover {
-            color: white !important;
-        }
-
-        .asteriskField {
-            color: red;
-        }</style>
-
-
-            <!-- Include Date Range Picker -->
-        <script type="text/javascript"
-                src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-        <link rel="stylesheet"
-              href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
-
-        <script>
-            $(document).ready(function () {
-                var date_input = $('input[name="date"]'); //our date input has the name "date"
-                var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
-                date_input.datepicker({
-                    format: 'mm/dd/yyyy',
-                    container: container,
-                    todayHighlight: true,
-                    autoclose: true,
-                })
-            })
-        </script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<script>
+$(document).ready(function() {
+    $('.datepicker').datepicker();
+});
+</script>
 {% endblock %}
 
 {% block content %}
@@ -51,63 +23,33 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="name">Product name</label>
-{#                <input type="text" class="form-control" aria-describedby="Article name" placeholder="Product name">#}
-                {{   form.name | as_crispy_field}}
+                {{ form.name | as_crispy_field }}
             </div>
 
 
             <div class="form-group  mb-3 col-md-6">
                 <label for="name">Price</label>
-{#                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"#}
-{#                       placeholder="9.99 €">#}
-                                {{   form.price | as_crispy_field}}
+                {{ form.price | as_crispy_field }}
             </div>
 
         </div>
 
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-{#                <span class="input-group-text">Description</span>#}
-                   {{   form.descr | as_crispy_field}}
-            </div>
-            <textarea class="form-control" aria-label="With textarea"></textarea>
-        </div>
-
-        <!-- Special version of Bootstrap that only affects content wrapped in .bootstrap-iso -->
-        <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css"/>
-
-
-
-
-
-                <!-- HTML Form (wrapped in a .bootstrap-iso div) -->
-        <div class="bootstrap-iso">
-            <div class="container-fluid">
-                <div class="row">
-                            <div class="form-group ">
-                                <label class="control-label " for="date">
-                                    Expiration day
-                                </label>
-{#                                <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>#}
-                                                   {{   form.end_date | as_crispy_field}}
-                            </div>
-                    </div>
+                {{ form.description | as_crispy_field }}
             </div>
         </div>
 
-                    <div class="form-group  md-6">
-{#                <label for="name">Minimum increment allowed</label>#}
-                              {{   form.min_increment | as_crispy_field}}
-                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
-                       placeholder="0.50 €">
-            </div>
 
+        <div class="form-group  md-6">
 
-        <!-- Extra JavaScript/CSS added manually in "Settings" tab -->
-        <!-- Include jQuery -->
+            {{ form.min_increment | as_crispy_field }}
+        </div>
 
+                <div class="form-group  md-6">
 
-
+            {{ form.end_date | as_crispy_field}}
+{#        </div>#}
 
 
         <input type="file" name="images" multiple>

@@ -71,7 +71,7 @@ class UserAdminChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', 'password', 'active', 'admin')
+        fields = ('email', 'password', 'is_active', 'is_admin')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -91,20 +91,21 @@ class new_auction_form(forms.Form):
 
 
 
-# class Profile_user_form(forms.Form):
-#     country    = forms.CharField()
-#     city    = forms.CharField()
-#     street      = forms.CharField()
-#     zip_code  = forms.CharField()
-#     photo = forms.ImageField(required=False)
-
-class Profile_user_form():
-
-    helper = FormHelper()
-    helper.form_id = 'profile-crispy-form'
-    helper.form_method = 'POST'
-    helper.add_input(Submit('submit', 'Save'))
+class Profile_user_form(forms.ModelForm):
+    country    = forms.CharField()
+    city    = forms.CharField()
+    street      = forms.CharField()
+    zip_code  = forms.CharField()
+    photo = forms.ImageField(required=False)
 
     class Meta:
         model = Profile
-        fields = ('first_name', 'middle_name', 'last_name')
+        fields = ['country', 'city', 'street','zip_code','photo']
+
+# class password_reset_form(forms.ModelForm):
+#     email = forms.EmailField()
+#     password = forms.CharField(widget=forms.PasswordInput)
+#
+#     class Meta:
+#         model = User
+#         fields = ['email','password']

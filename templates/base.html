@@ -75,12 +75,9 @@
                         <a class="dropdown-item" href="#">Lost auctions</a>
                     </div>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Sell <span class="sr-only">(current)</span></a>
-                </li>
                 {% if not user.is_premium %}
                 <li class="nav-item active">
-                    <a class="nav-link" href="#" style="color:red;">Get premium <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{% url 'get_premium' %}" style="color:red;">Get premium <span class="sr-only">(current)</span></a>
                 </li>
                 {% endif %}
 {#                <li class="nav-item">#}

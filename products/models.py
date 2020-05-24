@@ -23,28 +23,16 @@ class Product(models.Model):
     user = models.ManyToManyField(User,blank = True)#interested
 
 
-    # def save_product(self, name, description, price, min_increment, end_date, profile):
-    #     prod = self.create_product(
-    #             name,
-    #             description,
-    #             price,
-    #             min_increment,
-    #             end_date,
-    #             profile,
-    #             init_date = datetime.now(),
-    #     )
-    #     return prod
 
 
 # def get_image_filename(instance, filename):
-#     name = instance.product.name
-#     slug = slugify(name)
-#     return "product_images/%s-%s" % (slug, filename)
+#     id = instance.product.id
+#     return "product_images/%s-%s" % (id)
 
 
 class ProductImage(models.Model):
-    product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='images/')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='images/', verbose_name='ProductImage', blank=True)
 
     def __str__(self):
         return self.product.name

@@ -3,9 +3,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
+from django.forms import modelformset_factory
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, HttpRequest, Http404
 from django.http import HttpResponse
+from django.template import RequestContext
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, UpdateView
@@ -47,7 +49,7 @@ from django.contrib.auth.decorators import login_required
 #     return render(request, "users/user_profile_create.html", context)
 #
 
-from users.forms import RegisterForm, new_auction_form, Profile_user_form
+from users.forms import RegisterForm, Profile_user_form, new_auction_form
 from users.models import Profile
 
 User = get_user_model()
@@ -75,30 +77,63 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect("/")
 
+# @login_required
+# def new_auction_page(request):
+#     print(request.method)
+#     form = new_auction_form(request.POST or None)
+#     context = {
+#         "form": form
+#     }
+#     try:
+#         prof = Profile.objects.get(user=request.user)
+#     except:
+#         messages.warning(request, 'You have to provide your information before you start an auction')
+#         url = reverse('profileit')
+#         return redirect(url)
+#     NumeroProdottiPerCliente = Product.objects.filter(profile=prof).count()
+#     print(NumeroProdottiPerCliente)
+#     if NumeroProdottiPerCliente >= 3 and not request.user.premium:
+#         return render(request, "users/credit_card.html", {})
+#
+#     if form.is_valid():
+#         name  = form.cleaned_data.get("name")
+#         description = form.cleaned_data.get("description")
+#         price = form.cleaned_data.get("price")
+#         min_increment = form.cleaned_data.get("min_increment")
+#         end_date = form.cleaned_data.get("end_date")
+#         p = Product(name=name,description= description,price=price,min_increment=min_increment,end_date=end_date,final_price=price,profile = prof)
+#         p.save()
+#
+#         for file in request.FILES.getlist('images'):
+#             instance = ProductImage(
+#                 product=ProductImage.objects.get(request.user.id),
+#                 image=file
+#             )
+#             instance.save()
+#         return HttpResponseRedirect('/')
+#     return render(request, "users/new_auction.html", context)
+
+
 @login_required
 def new_auction_page(request):
-    print(request.method)
-    form = new_auction_form(request.POST or None)
-    context = {
-        "form": form
-    }
 
-    # print("user è ", request.user.first_name)
-    # print("profile è ", Profile.objects.get(user=request.user))
+    extra = 4 if request.user.is_premium else 1
+    ImageFormset = modelformset_factory(ProductImage, fields=('image',),extra=extra)
+    form = new_auction_form(request.POST or None)
+    formset = ImageFormset(request.POST or None, request.FILES or None)
+
     try:
         prof = Profile.objects.get(user=request.user)
     except:
         messages.warning(request, 'You have to provide your information before you start an auction')
         url = reverse('profileit')
         return redirect(url)
-        # return HttpResponseRedirect(url)
-
     NumeroProdottiPerCliente = Product.objects.filter(profile=prof).count()
     print(NumeroProdottiPerCliente)
     if NumeroProdottiPerCliente >= 3 and not request.user.premium:
         return render(request, "users/credit_card.html", {})
 
-    if form.is_valid():
+    if form.is_valid() or formset.is_valid():
         name  = form.cleaned_data.get("name")
         description = form.cleaned_data.get("description")
         price = form.cleaned_data.get("price")
@@ -107,20 +142,23 @@ def new_auction_page(request):
         p = Product(name=name,description= description,price=price,min_increment=min_increment,end_date=end_date,final_price=price,profile = prof)
         p.save()
 
-        for file in request.FILES.getlist('images'):
-            instance = ProductImage(
-                product=ProductImage.objects.get(request.user.id),
-                image=file
-            )
-            instance.save()
-        return HttpResponseRedirect('/')
+        for f in formset:
+            try:
+                print(f)
+                photo = ProductImage(product = p, image=f.cleaned_data['image'])
+                photo.save()
+            except Exception as e:
+                break
+        messages.success(request, 'You have successfully created a new auction!')
+        return redirect('home')
 
+
+    if request.method == 'GET':
+        formset = ImageFormset(queryset=ProductImage.objects.none())
+    context = {
+        "form": form, "formset":formset
+    }
     return render(request, "users/new_auction.html", context)
-
-
-
-
-
 
 @login_required
 def profile_change(request):

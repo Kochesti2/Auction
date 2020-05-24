@@ -21,41 +21,64 @@ $(document).ready(function() {
 
 {% block content %}
 
-    <form method="post" autocomplete="off">{% csrf_token %}
+    <form method="post" autocomplete="off" enctype="multipart/form-data">{% csrf_token %}
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="name">Product name</label>
                 {{ form.name | as_crispy_field }}
             </div>
-
-
             <div class="form-group  mb-3 col-md-6">
                 <label for="name">Price</label>
                 {{ form.price | as_crispy_field }}
             </div>
-
         </div>
-
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 {{ form.description | as_crispy_field }}
             </div>
         </div>
-
-
         <div class="form-group  md-6">
-
             {{ form.min_increment | as_crispy_field }}
         </div>
-
                 <div class="form-group  md-6">
-
             {{ form.end_date | as_crispy_field}}
         </div>
 
+        {{ formset.as_p }}
+{#        {% for form in formset %}#}
+{#            {{ form }}#}
+{#        {% endfor %}#}
 
-        <input type="file" name="images" multiple>
+{#        <input type="file" name="images" multiple>#}
         <button type="submit" class="btn btn-primary">Load</button>
     </form>
+
+{#<form action="{% url 'create-auction' %}" method="post" class="note-form" enctype="multipart/form-data">{% csrf_token %}#}
+{#  <div class="form-group">#}
+{#    <label for="note-title">Name</label>#}
+{#    <input type="text" name="name" class="form-control" id="note-title" placeholder="Enter Title" required>#}
+{#  </div>#}
+{#  <div class="form-group">#}
+{#    <label for="note-description">Description</label>#}
+{#    <textarea type="text" name="description" class="form-control" id="note-description" placeholder="Description here"></textarea>#}
+{#  </div>#}
+{#      <div class="form-group">#}
+{#    <label for="note-description">price</label>#}
+{#    <textarea type="text" name="price" class="form-control" id="note-description" placeholder="Description here"></textarea>#}
+{#  </div>#}
+{#      <div class="form-group">#}
+{#    <label for="note-description">Minimum increment</label>#}
+{#    <textarea type="text" name="min_increment" class="form-control" id="note-description" placeholder="Description here"></textarea>#}
+{#  </div>#}
+{#    <div>#}
+{#        <label for="end_date">End date:</label>#}
+{#        <input type="date" id="birthday" name="end_date">#}
+{#    </div>#}
+{#  <div class="form-group">#}
+{#    <label for="note-image">Images</label>#}
+{#    <input type="file" name="images" class="form-control-file" id="note-image" multiple>#}
+{#  </div>#}
+{#  <button type="submit" class="btn btn-primary">Submit</button>#}
+{#</form>#}
 
 {% endblock %}

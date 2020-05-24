@@ -5,6 +5,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
+from products.models import  Product
 from users.models import Profile
 
 User = get_user_model()
@@ -88,7 +89,23 @@ class new_auction_form(forms.Form):
     min_increment  = forms.DecimalField(decimal_places=2,max_digits=5)
     end_date = forms.DateField(widget=DateInput())
 
+# class AuctionForm(forms.ModelForm):
+#     class Meta:
+#         model = Product
+#         fields = ['name','description','price','min_increment','end_date'] #make sure to mention field here, if nothing is mentioned then all will be required.
+#
+# class NoteFullForm(AuctionForm): #extending form
+#     images = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+#
+#     class Meta(AuctionForm.Meta):
+#         fields = AuctionForm.Meta.fields + ['images',]
 
+
+# class ImageForm(forms.ModelForm):
+#     image = forms.ImageField(label='Image')
+#     class Meta:
+#         model = ProductImages
+#         fields = ('image', )
 
 
 class Profile_user_form(forms.ModelForm):
@@ -102,10 +119,3 @@ class Profile_user_form(forms.ModelForm):
         model = Profile
         fields = ['country', 'city', 'street','zip_code','photo']
 
-# class password_reset_form(forms.ModelForm):
-#     email = forms.EmailField()
-#     password = forms.CharField(widget=forms.PasswordInput)
-#
-#     class Meta:
-#         model = User
-#         fields = ['email','password']

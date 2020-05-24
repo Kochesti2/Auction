@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <!-- Required meta tags -->
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -13,11 +14,11 @@
 {#          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"#}
 {#          crossorigin="anonymous">#}
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet"
+
+            <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
           crossorigin="anonymous">
-
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
@@ -33,14 +34,20 @@
 {#    <link rel="stylesheet"#}
 {#          href="{% static 'css/style.css' %}">#}
 {#    <title>{% block title %}{% endblock %}</title>#}
-    {% block head %}
 
+
+
+    {% block head %}
     {% endblock %}
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Auction</a>
+    {% if user.is_premium %}
+        <a class="navbar-brand" href="{% url 'home' %}" style="color:Green;">Auction Premium</a>
+    {% else %}
+        <a class="navbar-brand" href="{% url 'home' %}">Auction</a>
+    {% endif %}
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -51,10 +58,6 @@
         {#            <img src="static/img/hammer.png" alt="">#}
         {#        </a>#}
         <ul class="navbar-nav mr-auto">
-
-            <li class="nav-item active">
-                <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
-            </li>
             {% if user.is_authenticated %}
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'profileit' %}">My page <span class="sr-only">(current)</span></a>
@@ -115,6 +118,15 @@
 
 
 <div id="site-main-page" class="container mt-n1 mt-md-3">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} }}" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+
+                    {% endif %}
+
     {% block content %}
 
     {% endblock %}

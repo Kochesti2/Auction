@@ -16,9 +16,11 @@ $(document).ready(function() {
     $('.datepicker').datepicker();
 });
 </script>
+
 {% endblock %}
 
 {% block content %}
+
     <form method="post" autocomplete="off">{% csrf_token %}
         <div class="form-row">
             <div class="form-group col-md-6">
@@ -49,7 +51,7 @@ $(document).ready(function() {
                 <div class="form-group  md-6">
 
             {{ form.end_date | as_crispy_field}}
-{#        </div>#}
+        </div>
 
 
         <input type="file" name="images" multiple>

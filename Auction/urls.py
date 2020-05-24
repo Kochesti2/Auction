@@ -16,16 +16,22 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from Auction import views
+from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django.conf import settings
 from django.views.generic.base import TemplateView
 
-
-
 urlpatterns = [
-    path('',views.homeView,name = 'home'),
-    path('about/',views.about_view,name = "about_view"),
-    path('users/',include('users.urls')),
+    path('', views.homeView, name='home'),
+
+    path('about/', views.about_view, name="about_view"),
+    path('users/', include('users.urls')),
     path('products/', include('products.urls')),
-    path('admin/', admin.site.urls),]
+    path('accounts/login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('accounts/password_reset/',auth_views.PasswordResetView.as_view(template_name='registration/password_reset.html'),name='password_reset'),
+    path('accounts/password_reset/done/',auth_views.PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html'),name='password_reset_done'),
+    path('accounts/reset/done/',auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'),name='password_reset_complete'),
+    path('accounts/reset/<uidb64>/<token>',auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm.html'),name='password_reset_confirm'),
+
+    path('admin/', admin.site.urls), ]+static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)
 # ]+static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)

@@ -5,9 +5,9 @@ from django.db import models
 from django.contrib.auth.models import ( AbstractBaseUser, BaseUserManager )
 from django.template.defaultfilters import slugify
 
-
+'''is_active=True,'''
 class UserManager(BaseUserManager):
-    def create_user(self, email, first_name , last_name, password=None, tel="", is_premium = False, is_active=True, is_staff=False, is_admin=False):
+    def create_user(self, email, first_name , last_name, password=None, tel="", is_premium = False,  is_staff=False, is_admin=False):
         if not email:
             raise ValueError("Users must have an email address")
         if not password:
@@ -21,9 +21,9 @@ class UserManager(BaseUserManager):
         user_obj.last_name = last_name
         user_obj.tel = tel
         user_obj.premium = is_premium
-        user_obj.is_staff = is_staff
-        user_obj.is_admin = is_admin
-        user_obj.is_active = is_active
+        user_obj.staff = is_staff
+        user_obj.admin = is_admin
+        # user_obj.is_active = is_active
         user_obj.save(using=self._db)
         return user_obj
 
@@ -67,10 +67,10 @@ class User(AbstractBaseUser):
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
     tel = models.CharField(max_length=50, blank = True , null= True)
-    is_premium     = models.BooleanField(default=False)
+    premium     = models.BooleanField(default=False)
     is_active      = models.BooleanField(default=True) # can login
-    is_staff       = models.BooleanField(default=False) # staff user non superuser
-    is_admin       = models.BooleanField(default=False) # superuser
+    staff       = models.BooleanField(default=False) # staff user non superuser
+    admin       = models.BooleanField(default=False) # superuser
 
 
     USERNAME_FIELD = 'email' #username
@@ -97,19 +97,15 @@ class User(AbstractBaseUser):
 
     @property
     def is_staff(self):
-        return self.is_staff
+        return self.staff
 
     @property
     def is_admin(self):
-        return self.is_admin
-
-    @property
-    def is_active(self):
-        return self.is_active
+        return self.admin
 
     @property
     def is_premium(self):
-        return self.is_premium
+        return self.premium
 
 
 
@@ -118,7 +114,7 @@ def get_image_path(instance, filename):
 
 
 class ProfileManager(BaseUserManager):
-    def create_update_Profile(self,user,country,city,street,zip_code, photo=None):
+    def create_update_Profile(self,user,country,city,street,zip_code, photo):
         try:
             p = user.profile
             crt = False
@@ -127,14 +123,19 @@ class ProfileManager(BaseUserManager):
             crt = True
 
         if crt:
-            profile = self.create(user=user, country=country, city=city, street=street, zip_code=zip_code,
-                                  rating=0, photo=photo)
+            if photo == None:
+                profile = self.create(user=user, country=country, city=city, street=street, zip_code=zip_code,
+                                  rating=0)
+            else:
+                profile = self.create(user=user, country=country, city=city, street=street, zip_code=zip_code,
+                                  rating=0,photo=photo)
         else:
             p.country = country
             p.city = city
             p.street = street
             p.zip_code = zip_code
-            p.photo=photo
+            if photo != None:
+                p.photo=photo
             p.save()
             return p
 
@@ -150,7 +151,7 @@ class Profile(models.Model):
     street = models.CharField(max_length=254)
     zip_code = models.CharField(max_length=20)
     rating = models.DecimalField(max_digits=5, decimal_places=2,blank = True,null=True)
-    photo = models.ImageField(upload_to='photos/', blank=True, null=True)
+    photo = models.ImageField(upload_to='photos/', blank=True, default='default-profile.jpg')
 
     objects = ProfileManager()
 

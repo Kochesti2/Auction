@@ -1,10 +1,12 @@
 from django.contrib.auth import get_user_model, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, get_object_or_404
+from django.contrib import messages
+from django.core.files.storage import FileSystemStorage
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, HttpRequest, Http404
 from django.http import HttpResponse
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, UpdateView
 from django.contrib.auth.decorators import login_required
@@ -86,8 +88,10 @@ def new_auction_page(request):
     try:
         prof = Profile.objects.get(user=request.user)
     except:
-        # return HttpResponseRedirect('/users/profile')
-        raise Http404
+        messages.warning(request, 'You have to provide your information before you start an auction')
+        url = reverse('profileit')
+        return redirect(url)
+        # return HttpResponseRedirect(url)
 
     NumeroProdottiPerCliente = Product.objects.filter(profile=prof).count()
     print(NumeroProdottiPerCliente)
@@ -130,19 +134,21 @@ def profile_change(request):
 
     try:
         usr.profile
-        form = Profile_user_form(request.POST or None, instance=get_object_or_404(Profile, id=request.user.id))
+        # instance = get_object_or_404(Profile, id=request.user.id)
+        form = Profile_user_form(request.POST or None,request.FILES )
     except:
-        form = Profile_user_form(request.POST or None)
+        form = Profile_user_form(request.POST or None,request.FILES)
 
     if form.is_valid():
         country  = form.cleaned_data.get("country")
         city = form.cleaned_data.get("city")
         street = form.cleaned_data.get("street")
         zip_code = form.cleaned_data.get("zip_code")
-        image = form.cleaned_data.get("image")
-        print("image",image)
-        p = Profile.objects.create_update_Profile(usr,country,city,street,zip_code,image)
+        photo = form.cleaned_data.get("photo")
 
+
+        p = Profile.objects.create_update_Profile(usr,country,city,street,zip_code,photo)
+        messages.success(request, 'Profile successfully updated')
         return HttpResponseRedirect('/')
     else:
         form = Profile_user_form()
@@ -150,7 +156,6 @@ def profile_change(request):
     context = {
         "form": form,
     }
-
     return render(request, "users/profile_page.html", context)
 
 

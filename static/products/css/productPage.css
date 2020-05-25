@@ -1,5 +1,5 @@
 body {
-    background-color: #6200EA;
+    background-color: rgba(0, 234, 199, 0.19);
     color: #000;
     overflow-x: hidden
 }
@@ -29,8 +29,8 @@ fieldset {
 }
 
 .product-pic {
-    padding-left: auto;
-    padding-right: auto;
+    /*padding-left: auto;*/
+    /*padding-right: auto;*/
     width: 100%
 }
 

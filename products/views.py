@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 # Create your views here.
@@ -11,6 +12,7 @@ def product_detail_view(request, **kwargs):
     form = Increment_price_form(request.POST or None)
     context = {'object': product,'form':form}
     product.user
+
     if form.is_valid():
         newPrice = form.cleaned_data.get("final_price")
 
@@ -19,6 +21,8 @@ def product_detail_view(request, **kwargs):
             product.winner = str(request.user)
             product.user.add(request.user)
             product.save()
+        else:
+            messages.error(request, "Please insert more than " + str(float(product.final_price + product.min_increment)) + " €")
 
 
     return render(request, 'products/productPage.html', context)

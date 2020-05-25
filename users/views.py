@@ -146,9 +146,13 @@ def new_auction_page(request):
             try:
                 print(f)
                 photo = ProductImage(product = p, image=f.cleaned_data['image'])
+                print(type(f.cleaned_data['image']))
                 photo.save()
             except Exception as e:
                 break
+        if formset.total_form_count() == 0:
+            print("non ci sono immagini")
+
         messages.success(request, 'You have successfully created a new auction!')
         return redirect('home')
 

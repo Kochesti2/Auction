@@ -103,7 +103,7 @@
             </form>
         {% else %}
             <form class="form-inline my-2 my-lg-0" action="{% url 'logout' %}">
-                <button class="btn btn-outline-dark">Log Out</button>
+                <button class="btn btn-outline-dark">{{ user.first_name | capfirst}} - Log Out</button>
 
             </form>
         {% endif %}

@@ -6,5 +6,7 @@ from products import views
 
 urlpatterns = [
     path('<int:id>/',views.product_detail_view, name ='product-detials'),
+    path('search/',views.search_view, name ='search'),
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

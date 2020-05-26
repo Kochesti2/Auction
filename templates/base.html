@@ -72,10 +72,10 @@
                         Bids
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Current auctions</a>
+                        <a class="dropdown-item" href="{% url 'current-auctions' %}">Current auctions</a>
                         <div class="dropdown-divider"></div>
-                         <a class="dropdown-item" href="#">Won auctions</a>
-                        <a class="dropdown-item" href="#">Lost auctions</a>
+                         <a class="dropdown-item" href="{% url 'won-auctions' %}">Won auctions</a>
+                        <a class="dropdown-item" href="{% url 'lost-auctions' %}">Lost auctions</a>
                     </div>
                 </li>
                 {% if not user.is_premium %}
@@ -93,6 +93,10 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'about_view' %}">About <span class="sr-only">(current)</span></a>
             </li>
+                                <form class="form-inline my-2 my-lg-0 ml-4" action="{% url 'search' %}" method="POST" value="{{request.POST.q}}">{% csrf_token %}
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q" value="{{request.POST.q}}">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
         </ul>
         {% if not user.is_authenticated %}
             <form class="form-inline my-2 my-lg-0">
@@ -108,14 +112,12 @@
             </form>
         {% endif %}
 
-        {#        <form class="form-inline my-2 my-lg-0">#}
-        {#            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">#}
-        {#            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>#}
-        {#        </form>#}
-{#        </form>#}
+        </form>
     </div>
+
 </nav>
 
+</form>
 
 <div id="site-main-page" class="container mt-n1 mt-md-3">
                     {% if messages %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/card.css" %}">
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="band">
+        {% for product in  products %}
+            {% if product.disponible %}
+
+            <a href="{% url 'product-detials' product.id %}" class="card">
+                {% for p in product.productimage_set.all %}
+                    {% if forloop.counter  == 1 %}
+                        <img class="img-thumbnail" src="{{ p.image.url }}">
+                    {% endif %}
+                {% endfor %}
+
+                {% if product.productimage_set.all.count == 0%}
+                    <img class="img-thumbnail" src="{% static 'default-hammer.jpg' %}">
+                {% endif %}
+
+                <article>
+                    <h1>{{ product.name }}</h1>
+                    <p> {{ product.description }}</p>
+                    <span>{{ product.profile.user.first_name }} {{ product.profile.user.last_name }}</span>
+                </article>
+            </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

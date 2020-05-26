@@ -86,7 +86,7 @@ class new_auction_form(forms.Form):
     name    = forms.CharField()
     description  = forms.CharField(widget=forms.Textarea)
     price      = forms.DecimalField(decimal_places=2,max_digits=10)
-    min_increment  = forms.DecimalField(decimal_places=2,max_digits=5)
+    min_increment  = forms.DecimalField(decimal_places=2,max_digits=10)
     end_date = forms.DateField(widget=DateInput())
 
 # class AuctionForm(forms.ModelForm):

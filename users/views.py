@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth import get_user_model, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -9,6 +11,7 @@ from django.http import HttpResponseRedirect, HttpRequest, Http404
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.urls import reverse_lazy, reverse
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, UpdateView
 from django.contrib.auth.decorators import login_required
@@ -17,37 +20,6 @@ from django.contrib.auth.decorators import login_required
 from products.models import Product, ProductImage
 from django.contrib.auth.decorators import login_required
 
-# def users_detail_view(request,id):
-#    obj = get_object_or_404(User, id =id)
-#    context = {
-#          'id':obj.id,
-#          'name':obj.name,
-#          'surname':obj.surname,
-#          'mail':obj.email
-#    }
-#    return render(request, "users/users_home.html", context)
-#
-
-
-
-
-
-
-
-# def UserCreateProfileView(request):
-#     my_form = UserProfileForm(request.POST)
-#     print("request -" , request)
-#     # if form.is_valid():
-#     #     form.save()
-#     #     form = UserProfileForm()
-#     # else:
-#     #     print("form is not valid")
-#
-#     context = {
-#         'from': my_form
-#     }
-#     return render(request, "users/user_profile_create.html", context)
-#
 
 from users.forms import RegisterForm, Profile_user_form, new_auction_form
 from users.models import Profile
@@ -77,42 +49,6 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect("/")
 
-# @login_required
-# def new_auction_page(request):
-#     print(request.method)
-#     form = new_auction_form(request.POST or None)
-#     context = {
-#         "form": form
-#     }
-#     try:
-#         prof = Profile.objects.get(user=request.user)
-#     except:
-#         messages.warning(request, 'You have to provide your information before you start an auction')
-#         url = reverse('profileit')
-#         return redirect(url)
-#     NumeroProdottiPerCliente = Product.objects.filter(profile=prof).count()
-#     print(NumeroProdottiPerCliente)
-#     if NumeroProdottiPerCliente >= 3 and not request.user.premium:
-#         return render(request, "users/credit_card.html", {})
-#
-#     if form.is_valid():
-#         name  = form.cleaned_data.get("name")
-#         description = form.cleaned_data.get("description")
-#         price = form.cleaned_data.get("price")
-#         min_increment = form.cleaned_data.get("min_increment")
-#         end_date = form.cleaned_data.get("end_date")
-#         p = Product(name=name,description= description,price=price,min_increment=min_increment,end_date=end_date,final_price=price,profile = prof)
-#         p.save()
-#
-#         for file in request.FILES.getlist('images'):
-#             instance = ProductImage(
-#                 product=ProductImage.objects.get(request.user.id),
-#                 image=file
-#             )
-#             instance.save()
-#         return HttpResponseRedirect('/')
-#     return render(request, "users/new_auction.html", context)
-
 
 @login_required
 def new_auction_page(request):
@@ -133,12 +69,54 @@ def new_auction_page(request):
     if NumeroProdottiPerCliente >= 3 and not request.user.premium:
         return render(request, "users/credit_card.html", {})
 
+
     if form.is_valid() or formset.is_valid():
         name  = form.cleaned_data.get("name")
+        try:
+            if len(name) > 40:
+                messages.error(request, "Name is too long")
+                return redirect('create-auction')
+        except:
+            messages.error(request, "Name is too long")
+            return redirect('create-auction')
+
         description = form.cleaned_data.get("description")
+        try:
+            if len(description) > 300:
+                messages.error(request, "Description is too long max 300 characters")
+                return redirect('create-auction')
+        except:
+            messages.error(request, "Description is too long max 300 characters")
+            return redirect('create-auction')
+
         price = form.cleaned_data.get("price")
+        try:
+            if price <= 0 or price > 50000000:
+                messages.error(request, "Price should be between 0 - 50'000'000")
+                return redirect('create-auction')
+        except:
+            messages.error(request, "Price should be between 0 - 50'000'000")
+            return redirect('create-auction')
+
         min_increment = form.cleaned_data.get("min_increment")
+        try:
+            print(min_increment)
+            if min_increment <= 0:
+                messages.error(request, "Increment cannot be negative")
+                return redirect('create-auction')
+        except:
+            messages.error(request, "Increment cannot be negative")
+            return redirect('create-auction')
+
         end_date = form.cleaned_data.get("end_date")
+        try:
+            if form.cleaned_data.get("end_date") < datetime.date(timezone.localtime(timezone.now())):
+                messages.error(request, "Date not valid!")
+                return redirect('create-auction')
+        except:
+            messages.error(request, "Date not valid!")
+            return redirect('create-auction')
+
         p = Product(name=name,description= description,price=price,min_increment=min_increment,end_date=end_date,final_price=price,profile = prof)
         p.save()
 
@@ -217,23 +195,29 @@ def get_premium_after(request):
     return HttpResponseRedirect('/')
 
 
-# da finire
-# def current_auctions_view(request):
-#
-#
-#     u = request.user
-#     products = Product.objects.all()
-#     for p in products:
-#         if request.user in p.user:
-#
-#
-#     if len(product.winner) > 0:
-#         s_name = request.user.first_name
-#         s_last = request.user.last_name
-#         winner_to_display = s_name[:3] + "**** ****" + s_last[len(s_last) - 3:len(s_last)]
-#     else:
-#         winner_to_display = "Be the first!"
-#
-#     context = {'object': product, 'form': form, 'winner_to_diplay': winner_to_display}
-#     return render(request, 'products/productPage.html', context)
+def current_auctions_view(request):
+    products = Product.objects.filter(user__email=request.user.email)
+    print(products)
+
+    context = {'products': products}
+    return render(request, 'users/current_auctions.html', context)
+
+def won_auctions_view(request):
+    products = Product.objects.filter(winner=str(request.user.email))
+    print(products)
+
+    context = {'products': products}
+    return render(request, 'users/won_auctions.html', context)
+
+
+def lost_auctions_view(request):
+
+    products = Product.objects.filter(user__email=request.user.email)
+    print(products)
+    products = products.difference(Product.objects.filter(winner=str(request.user.email)))
+    print(products)
+
+    context = {'products': products}
+    return render(request, 'users/lost_auctions.html', context)
+
 

@@ -13,13 +13,33 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import threading
+from datetime import time
+
+
+import schedule
 from django.contrib import admin
 from django.urls import path, include
+from django.utils import timezone
+
 from Auction import views
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django.conf import settings
-from django.views.generic.base import TemplateView
+from background_task import background
+from django.contrib.auth.models import User
+
+
+# @background(schedule=5)
+# def job():
+#     print("i am working")
+#
+# job(repeat=5, repeat_until=None)
+# # job(1,schedule=30)
+# python manage.py process_tasks
+# pip install django-background-tasks
+
+
 
 urlpatterns = [
     path('', views.homeView, name='home'),
@@ -32,6 +52,5 @@ urlpatterns = [
     path('accounts/password_reset/done/',auth_views.PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html'),name='password_reset_done'),
     path('accounts/reset/done/',auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'),name='password_reset_complete'),
     path('accounts/reset/<uidb64>/<token>',auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm.html'),name='password_reset_confirm'),
-
     path('admin/', admin.site.urls), ]+static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)
-# ]+static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)
+

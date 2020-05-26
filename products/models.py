@@ -21,6 +21,7 @@ class Product(models.Model):
     # # images = models.ImageField(default='default.png',blank=True)
     rating = models.FloatField(default = 0,blank = True,null=True)
     user = models.ManyToManyField(User,blank = True)#interested
+    disponible = models.BooleanField(default=True)
 
 
 

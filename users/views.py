@@ -217,3 +217,23 @@ def get_premium_after(request):
     return HttpResponseRedirect('/')
 
 
+# da finire
+# def current_auctions_view(request):
+#
+#
+#     u = request.user
+#     products = Product.objects.all()
+#     for p in products:
+#         if request.user in p.user:
+#
+#
+#     if len(product.winner) > 0:
+#         s_name = request.user.first_name
+#         s_last = request.user.last_name
+#         winner_to_display = s_name[:3] + "**** ****" + s_last[len(s_last) - 3:len(s_last)]
+#     else:
+#         winner_to_display = "Be the first!"
+#
+#     context = {'object': product, 'form': form, 'winner_to_diplay': winner_to_display}
+#     return render(request, 'products/productPage.html', context)
+

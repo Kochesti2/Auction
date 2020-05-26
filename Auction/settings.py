@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'background_task',
     'crispy_forms',
     'bootstrap_datepicker_plus',
     'products',
@@ -124,6 +125,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS =  [os.path.join(BASE_DIR, 'static')]
 
@@ -133,3 +135,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 LOGIN_REDIRECT_URL = '/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+CELERY_BROKER_URL = 'redis://h:pc0e01da54eb02a2b79626baa69830a9b30b97d457b7e86f8b8f914b8a9797a8c@ec2-52-30-182-149.eu-west-1.compute.amazonaws.com:21889'
+
+CELERY_ACCEPT_AONTENT =['json']
+CELERY_TASK_SERIALIZER = 'json'

@@ -56,11 +56,13 @@
                         <h4 class="card-title">Seller
                             : {{ object.profile.user.first_name | title }} {{ object.profile.user.last_name | title }}</h4>
                         <h4 class="card-title">Description : {{ object.description }}</h4>
-                        <h4 class="card-title">Actual price : {{ object.final_price }}</h4>
-                        <h4 class="card-title">Minimum offer : {{ increment }}</h4>
+                        <h4 class="card-title">Actual price : {{ object.final_price }} €</h4>
+                        <h4 class="card-title">Minimum offer : {{ increment }} €</h4>
                         <h4 class="card-title">Best bidder : {{ winner_to_diplay}}</h4>
                         <p class="card-text">Auction finishes : {{ object.end_date }} </p>
+                         <p class="card-text">Time left : {{ object.time_left_to_end }} days</p>
                         <form method="POST">{% csrf_token %}
+                            <p>Insert your bid</p>
                             {{ form | crispy }}
                             <input type='submit' class="btn btn-primary" value='Bid'>
                         </form>

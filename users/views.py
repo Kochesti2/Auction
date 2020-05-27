@@ -1,20 +1,11 @@
 from datetime import datetime
-
 from django.contrib.auth import get_user_model, logout
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from django.core.files.storage import FileSystemStorage
 from django.forms import modelformset_factory
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponseRedirect, HttpRequest, Http404
-from django.http import HttpResponse
-from django.template import RequestContext
-from django.urls import reverse_lazy, reverse
+from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect, Http404
+from django.urls import reverse
 from django.utils import timezone
-from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, UpdateView
-from django.contrib.auth.decorators import login_required
 
 
 from products.models import Product, ProductImage
@@ -194,29 +185,22 @@ def get_premium_after(request):
 
     return HttpResponseRedirect('/')
 
-
+@login_required
 def current_auctions_view(request):
     products = Product.objects.filter(user__email=request.user.email)
-    print(products)
-
     context = {'products': products}
     return render(request, 'users/current_auctions.html', context)
 
+@login_required
 def won_auctions_view(request):
     products = Product.objects.filter(winner=str(request.user.email))
-    print(products)
-
     context = {'products': products}
     return render(request, 'users/won_auctions.html', context)
 
-
+@login_required
 def lost_auctions_view(request):
-
     products = Product.objects.filter(user__email=request.user.email)
-    print(products)
     products = products.difference(Product.objects.filter(winner=str(request.user.email)))
-    print(products)
-
     context = {'products': products}
     return render(request, 'users/lost_auctions.html', context)
 

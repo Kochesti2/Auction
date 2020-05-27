@@ -83,11 +83,11 @@ class UserAdminChangeForm(forms.ModelForm):
 DateInput = partial(forms.DateInput, {'class': 'datepicker'})
 
 class new_auction_form(forms.Form):
-    name    = forms.CharField()
+    name    = forms.CharField(label='Product name')
     description  = forms.CharField(widget=forms.Textarea)
     price      = forms.DecimalField(decimal_places=2,max_digits=10)
-    min_increment  = forms.DecimalField(decimal_places=2,max_digits=10)
-    end_date = forms.DateField(widget=DateInput())
+    min_increment  = forms.DecimalField(decimal_places=2,max_digits=10,label='Insert minimum increment of price allowed')
+    end_date = forms.DateField(widget=DateInput(), label='Insert auction finish date')
 
 # class AuctionForm(forms.ModelForm):
 #     class Meta:

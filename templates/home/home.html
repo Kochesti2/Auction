@@ -55,7 +55,16 @@
                 {% endif %}
 
                 <article>
-                    <h1>{{ product.name }}</h1>
+                    <h1>{{ product.name }}
+                    {% if product.get_product_age == 0 %}
+                            <p class="badge badge-pill badge-success">New</p>
+                        {% elif product.get_product_age == 1 %}
+                            <p class="badge badge-pill badge-warning">Old</p>
+                        {% else %}
+                            <p class="badge badge-pill badge-danger">Too old</p>
+                        {% endif %}
+
+                     </h1>
                     <p> {{ product.description }}</p>
                     <span>{{ product.profile.user.first_name }} {{ product.profile.user.last_name }}</span>
                 </article>
@@ -63,7 +72,6 @@
             {% endif %}
         {% endfor %}
     </div>
-
     {% if products.has_other_pages %}
         <ul class="pagination">
             {% if products.has_previous %}

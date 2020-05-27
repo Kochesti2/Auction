@@ -20,15 +20,14 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block content %}
-
+    <h3>Create new auction</h3>
+    <br>
     <form method="post" autocomplete="off" enctype="multipart/form-data">{% csrf_token %}
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="name">Product name</label>
                 {{ form.name | as_crispy_field }}
             </div>
             <div class="form-group  mb-3 col-md-6">
-                <label for="name">Price</label>
                 {{ form.price | as_crispy_field }}
             </div>
         </div>

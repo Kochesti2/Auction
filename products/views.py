@@ -49,10 +49,6 @@ def product_detail_view(request, **kwargs):
     context = {'object': product,'form':form,'winner_to_diplay':winner_to_display,'increment':increment}
     return render(request, 'products/productPage.html', context)
 
-def product_view(request):
-    product = Product.objects.all()
-    return render(request, '')
-
 
 
 def search_view(request):
@@ -66,3 +62,11 @@ def search_view(request):
             return render(request, 'products/search.html', context)
 
     return redirect('home')
+
+
+
+
+
+
+
+

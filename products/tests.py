@@ -68,7 +68,6 @@ class AgeMethodTest(TestCase):
         self.assertEqual(product.get_product_age(),-1,"Should return -1")
 
 class TimeLeftMethodTest(TestCase):
-
     def test_time_left_to_end(self):
         delta = timedelta(days=5)
         days_ago = datetime.now() - delta

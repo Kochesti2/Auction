@@ -2,6 +2,7 @@ from datetime import datetime
 from django.test import TestCase, Client
 
 # Create your tests here.
+# use : python manage.py test users
 from django.urls import reverse
 
 from products.models import Product

@@ -5,20 +5,10 @@
 {% endblock %}
 
 {% block content %}
-    <h1>about content body</h1>
+    <h1>About this site</h1>
 
 
     <p>
-    {{  my_text}},{{ my_number }}
-
-    <ul>
-        {% for my_sub_item in  my_list%}
-            {% if my_sub_item == 1 %}
-                <li>{{ my_sub_item|add:4 }}</li>
-            {% else %}
-                <li>{{ my_sub_item }}</li>
-            {% endif %}
-        {% endfor %}
-    </ul>
+        This is online auction. Here you can sell and buy movable and immovable assets.
     </p>
 {% endblock %}

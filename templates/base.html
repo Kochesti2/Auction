@@ -3,45 +3,21 @@
 <html lang="en">
 <head>
     <!-- Required meta tags -->
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-
-{#<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>#}
-{#    <!-- FontAwesome CSS -->#}
+    {#    <!-- FontAwesome CSS -->#}
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
           integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
           crossorigin="anonymous">
     <!-- Bootstrap CSS -->
-
-            <link rel="stylesheet"
+    <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
           crossorigin="anonymous">
-
-{#<script src="https://code.jquery.com/jquery-3.4.1.min.js"#}
-{#        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="#}
-{#        crossorigin="anonymous"></script>#}
-{#<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"#}
-{#        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"#}
-{#        crossorigin="anonymous"></script>#}
-{#<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"#}
-{#        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"#}
-{#        crossorigin="anonymous"></script>#}
-
-
-{#    <link rel="stylesheet"#}
-{#          href="{% static 'css/style.css' %}">#}
-{#    <title>{% block title %}{% endblock %}</title>#}
-
-
-
     {% block head %}
     {% endblock %}
 </head>
 <body>
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     {% if user.is_premium %}
         <a class="navbar-brand" href="{% url 'home' %}" style="color:Green;">Auction Premium</a>
@@ -52,18 +28,15 @@
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        {#        <a class="navbar-brand" href="#">#}
-        {#            <img src="static/img/hammer.png" alt="">#}
-        {#        </a>#}
         <ul class="navbar-nav mr-auto">
             {% if user.is_authenticated %}
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'profileit' %}">My page <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'create-auction' %}">Start Auction <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{% url 'create-auction' %}">Start Auction <span
+                            class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -74,60 +47,54 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{% url 'current-auctions' %}">Current auctions</a>
                         <div class="dropdown-divider"></div>
-                         <a class="dropdown-item" href="{% url 'won-auctions' %}">Won auctions</a>
+                        <a class="dropdown-item" href="{% url 'won-auctions' %}">Won auctions</a>
                         <a class="dropdown-item" href="{% url 'lost-auctions' %}">Lost auctions</a>
                     </div>
                 </li>
                 {% if not user.is_premium %}
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'get_premium' %}" style="color:red;">Get premium <span class="sr-only">(current)</span></a>
-                </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'get_premium' %}" style="color:red;">Get premium <span
+                                class="sr-only">(current)</span></a>
+                    </li>
                 {% endif %}
-{#                <li class="nav-item">#}
-{#                    <a class="nav-link" href="#">Link</a>#}
-{#                </li>#}
-{#                <li class="nav-item">#}
-{#                    <a class="nav-link disabled" href="#">Disabled</a>#}
-{#                </li>#}
             {% endif %}
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'about_view' %}">About <span class="sr-only">(current)</span></a>
             </li>
-                                <form class="form-inline my-2 my-lg-0 ml-4" action="{% url 'search' %}" method="POST" value="{{request.POST.q}}">{% csrf_token %}
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q" value="{{request.POST.q}}">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
+            <form class="form-inline my-2 my-lg-0 ml-4" action="{% url 'search' %}" method="POST"
+                  value="{{ request.POST.q }}">{% csrf_token %}
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q"
+                       value="{{ request.POST.q }}">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
         </ul>
         {% if not user.is_authenticated %}
             <form class="form-inline my-2 my-lg-0">
                 <div class=" card-body text-center"><a href="/users/create">Register</a></div>
             </form>
             <form class="form-inline my-2 my-lg-0" action="{% url 'login' %}">
-            <button class="btn btn-outline-primary my-2 my-sm-0">Log In</button>
+                <button class="btn btn-outline-primary my-2 my-sm-0">Log In</button>
             </form>
         {% else %}
             <form class="form-inline my-2 my-lg-0" action="{% url 'logout' %}">
-                <button class="btn btn-outline-dark">{{ user.first_name | capfirst}} - Log Out</button>
-
+                <button class="btn btn-outline-dark">{{ user.first_name | capfirst }} - Log Out</button>
             </form>
         {% endif %}
-
         </form>
     </div>
-
 </nav>
-
 </form>
 
 <div id="site-main-page" class="container mt-n1 mt-md-3">
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} }}" role="alert">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} }}"
+                 role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
 
-                    {% endif %}
+    {% endif %}
 
     {% block content %}
 
@@ -136,11 +103,6 @@
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-
-
-
-
-
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
         crossorigin="anonymous"></script>

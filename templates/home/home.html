@@ -40,8 +40,45 @@
     <br>
     <div class="support-grid"></div>
     <div class="band">
-        {% for product in  products %}
+        {% for product in tri %}
             {% if  product.disponible%}
+
+            <a href="{% url 'product-detials' product.id %}" class="card">
+                {% for p in product.productimage_set.all %}
+                    {% if forloop.counter  == 1 %}
+                        <img class="img-thumbnail" src="{{ p.image.url }}">
+                    {% endif %}
+                {% endfor %}
+
+                {% if product.productimage_set.all.count == 0%}
+                    <img class="img-thumbnail" src="{{ 'media/default-hammer.jpg' }}">
+                {% endif %}
+
+                <article>
+                    <h1>{{ product.name }}
+                    {% if product.get_product_age == 0 %}
+                            <p class="badge badge-pill badge-success">New</p>
+                        {% elif product.get_product_age == 1 %}
+                            <p class="badge badge-pill badge-warning">Old</p>
+                        {% else %}
+                            <p class="badge badge-pill badge-danger">Too old</p>
+                        {% endif %}
+
+                     </h1>
+                    <p> {{ product.description }}</p>
+                    <span>{{ product.profile.user.first_name }} {{ product.profile.user.last_name }}</span>
+                </article>
+            </a>
+            {% endif %}
+        {% endfor %}
+
+
+
+
+
+
+        {% for product in  products %}
+            {% if  product.disponible and not product in tri%}
 
             <a href="{% url 'product-detials' product.id %}" class="card">
                 {% for p in product.productimage_set.all %}

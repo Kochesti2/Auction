@@ -6,12 +6,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.utils import timezone
-
-
 from products.models import Product, ProductImage
 from django.contrib.auth.decorators import login_required
-
-
 from users.forms import RegisterForm, Profile_user_form, new_auction_form
 from users.models import Profile
 
@@ -169,20 +165,18 @@ def profile_change(request):
     }
     return render(request, "users/profile_page.html", context)
 
-
+@login_required
 def get_premium(request):
     return render(request, "users/credit_card.html", {})
 
+@login_required
 def get_premium_after(request):
     try:
         usr = User.objects.get(id=request.user.id)
     except:
         raise Http404
-
-
     usr.premium = True
     usr.save()
-
     return HttpResponseRedirect('/')
 
 @login_required

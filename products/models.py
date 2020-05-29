@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.db import models
+from django.template.defaultfilters import register
 from django.utils import timezone
 from users.models import User
 from users.models import Profile
@@ -51,3 +52,28 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return self.product.name
+
+class Comment(models.Model):
+    product_post = models.ForeignKey(Product,on_delete=models.CASCADE,related_name='comments')
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    body = models.TextField(verbose_name='')
+    created_on = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['created_on']
+
+    def __str__(self):
+        return 'Comment {} by {}'.format(self.body, self.user)
+
+    @register.filter
+    def get_name(self):
+        email = self.user
+        u = User.objects.filter(email=email)[:1].get()
+        return u.first_name
+
+    @register.filter
+    def get_surname(self):
+        email = self.user
+        u = User.objects.filter(email=email)[:1].get()
+        return u.last_name

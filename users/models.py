@@ -114,7 +114,7 @@ def get_image_path(instance, filename):
 
 
 class ProfileManager(BaseUserManager):
-    def create_update_Profile(self,user,country,city,street,zip_code, photo):
+    def create_update_Profile(self,user,country,city,address,zip_code, photo):
         try:
             p = user.profile
             crt = False
@@ -124,15 +124,15 @@ class ProfileManager(BaseUserManager):
 
         if crt:
             if photo == None:
-                profile = self.create(user=user, country=country, city=city, street=street, zip_code=zip_code,
+                profile = self.create(user=user, country=country, city=city, address=address, zip_code=zip_code,
                                   rating=0)
             else:
-                profile = self.create(user=user, country=country, city=city, street=street, zip_code=zip_code,
+                profile = self.create(user=user, country=country, city=city, address=address, zip_code=zip_code,
                                   rating=0,photo=photo)
         else:
             p.country = country
             p.city = city
-            p.street = street
+            p.address = address
             p.zip_code = zip_code
             if photo != None:
                 p.photo=photo
@@ -148,7 +148,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     country = models.CharField(max_length=254)
     city = models.CharField(max_length=254)
-    street = models.CharField(max_length=254)
+    address = models.CharField(max_length=254)
     zip_code = models.CharField(max_length=20)
     rating = models.DecimalField(max_digits=5, decimal_places=2,blank = True,null=True)
     photo = models.ImageField(upload_to='photos/', blank=True, default='default-profile.jpg')

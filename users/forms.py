@@ -111,11 +111,11 @@ class new_auction_form(forms.Form):
 class Profile_user_form(forms.ModelForm):
     country    = forms.CharField()
     city    = forms.CharField()
-    street      = forms.CharField()
+    address      = forms.CharField()
     zip_code  = forms.CharField()
     photo = forms.ImageField(required=False)
 
     class Meta:
         model = Profile
-        fields = ['country', 'city', 'street','zip_code','photo']
+        fields = ['country', 'city', 'address','zip_code','photo']
 

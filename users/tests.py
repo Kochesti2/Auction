@@ -69,17 +69,17 @@ class TestCurrentAuctionsView(TestCase):
     def test_when_there_is_one_product_and_bidded(self):
         country  = "Italy"
         city = "Rome"
-        street = "Curie 39"
+        address = "Curie 39"
         zip_code = "42536"
         photo = None
-        self.uprofile = Profile.objects.create(user=self.u,country=country,city=city,street=street,zip_code=zip_code,photo=photo)
+        self.uprofile = Profile.objects.create(user=self.u,country=country,city=city,address=address,zip_code=zip_code,photo=photo)
 
         country  = "Italy1"
         city = "Rome1"
-        street = "Curie 391"
+        address = "Curie 391"
         zip_code = "425361"
         photo = None
-        self.vprofile = Profile.objects.create(user=self.v,country=country,city=city,street=street,zip_code=zip_code,photo=photo)
+        self.vprofile = Profile.objects.create(user=self.v,country=country,city=city,address=address,zip_code=zip_code,photo=photo)
 
         self.myLoginSeller()
         who = self.vprofile
@@ -93,18 +93,18 @@ class TestCurrentAuctionsView(TestCase):
     def test_when_there_is_one_product_but_not_bidded(self):
         country = "Italy"
         city = "Rome"
-        street = "Curie 39"
+        address = "Curie 39"
         zip_code = "42536"
         photo = None
-        self.uprofile = Profile.objects.create(user=self.u, country=country, city=city, street=street,
+        self.uprofile = Profile.objects.create(user=self.u, country=country, city=city, address=address,
                                                zip_code=zip_code, photo=photo)
 
         country = "Italy1"
         city = "Rome1"
-        street = "Curie 391"
+        address = "Curie 391"
         zip_code = "425361"
         photo = None
-        self.vprofile = Profile.objects.create(user=self.v, country=country, city=city, street=street,
+        self.vprofile = Profile.objects.create(user=self.v, country=country, city=city, address=address,
                                                zip_code=zip_code, photo=photo)
 
         self.myLoginSeller()
@@ -117,26 +117,26 @@ class TestCurrentAuctionsView(TestCase):
     def test_when_there_is_one_product_bidded_but_by_other_user(self):
         country = "Italy"
         city = "Rome"
-        street = "Curie 39"
+        address = "Curie 39"
         zip_code = "42536"
         photo = None
-        self.uprofile = Profile.objects.create(user=self.u, country=country, city=city, street=street,
+        self.uprofile = Profile.objects.create(user=self.u, country=country, city=city, address=address,
                                                zip_code=zip_code, photo=photo)
 
         country = "Italy1"
         city = "Rome1"
-        street = "Curie 391"
+        address = "Curie 391"
         zip_code = "425361"
         photo = None
-        self.vprofile = Profile.objects.create(user=self.t, country=country, city=city, street=street,
+        self.vprofile = Profile.objects.create(user=self.t, country=country, city=city, address=address,
                                                zip_code=zip_code, photo=photo)
 
         country = "Italy2"
         city = "Rome2"
-        street = "Curie 392"
+        address = "Curie 392"
         zip_code = "425362"
         photo = None
-        self.tprofile = Profile.objects.create(user=self.v, country=country, city=city, street=street,
+        self.tprofile = Profile.objects.create(user=self.v, country=country, city=city, address=address,
                                                zip_code=zip_code, photo=photo)
 
         self.myLoginSeller()
@@ -153,10 +153,10 @@ class TestCurrentAuctionsView(TestCase):
     def test_user_is_authenticated_and_doent_have_profile(self):
         country = "Italy1"
         city = "Rome1"
-        street = "Curie 391"
+        address = "Curie 391"
         zip_code = "425361"
         photo = None
-        self.vprofile = Profile.objects.create(user=self.t, country=country, city=city, street=street,
+        self.vprofile = Profile.objects.create(user=self.t, country=country, city=city, address=address,
                                                zip_code=zip_code, photo=photo)
 
         self.myLoginSeller()

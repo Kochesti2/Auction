@@ -27,6 +27,7 @@ def register_page(request):
         email  = form.cleaned_data.get("email")
         password  = form.cleaned_data.get("password")
         new_user = User.objects.create_user( email, first_name, last_name, password, tel)
+        messages.success(request,"Thank you for registration, now you can log in!")
         return HttpResponseRedirect('/')
 
     return render(request, "registration/user_create.html", context)
@@ -149,12 +150,12 @@ def profile_change(request):
     if form.is_valid():
         country  = form.cleaned_data.get("country")
         city = form.cleaned_data.get("city")
-        street = form.cleaned_data.get("street")
+        address = form.cleaned_data.get("address")
         zip_code = form.cleaned_data.get("zip_code")
         photo = form.cleaned_data.get("photo")
 
 
-        p = Profile.objects.create_update_Profile(usr,country,city,street,zip_code,photo)
+        p = Profile.objects.create_update_Profile(usr,country,city,address,zip_code,photo)
         messages.success(request, 'Profile successfully updated')
         return HttpResponseRedirect('/')
     else:
@@ -187,7 +188,7 @@ def current_auctions_view(request):
 
 @login_required
 def won_auctions_view(request):
-    products = Product.objects.filter(winner=str(request.user.email))
+    products = Product.objects.filter(winner=str(request.user.email), disponible=False)
     context = {'products': products}
     return render(request, 'users/won_auctions.html', context)
 
@@ -198,4 +199,12 @@ def lost_auctions_view(request):
     context = {'products': products}
     return render(request, 'users/lost_auctions.html', context)
 
+@login_required
+def my_auctions_view(request):
+    try:
+        products = Product.objects.filter(profile=request.user.profile)
+    except:
+        products = Product.objects.none()
+    context = {'products': products}
+    return render(request, 'users/my_auctions.html', context)
 

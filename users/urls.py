@@ -17,6 +17,7 @@ urlpatterns = [
     path('current_auctions/', views.current_auctions_view, name='current-auctions'),
     path('won_auctions/', views.won_auctions_view, name='won-auctions'),
     path('lost_auctions/', views.lost_auctions_view, name='lost-auctions'),
+    path('my_auctions/', views.my_auctions_view, name='my-auctions'),
     path('', include('django.contrib.auth.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

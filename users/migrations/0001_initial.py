@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('country', models.CharField(max_length=254)),
                 ('city', models.CharField(max_length=254)),
-                ('street', models.CharField(max_length=254)),
+                ('address', models.CharField(max_length=254)),
                 ('zip_code', models.CharField(max_length=20)),
                 ('rating', models.DecimalField(blank=True, decimal_places=2, max_digits=5, null=True)),
                 ('photo', models.ImageField(blank=True, default='default-profile.jpg', upload_to='photos/')),

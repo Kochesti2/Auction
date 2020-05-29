@@ -1,6 +1,6 @@
 from django import forms
 from products.models import Product
-
+from .models import Comment
 
 
 class Increment_price_form(forms.ModelForm):
@@ -8,3 +8,10 @@ class Increment_price_form(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['final_price']
+
+
+class CommentForm(forms.ModelForm):
+    body = forms.TextInput()
+    class Meta:
+        model = Comment
+        fields = ('body',)

@@ -3,37 +3,34 @@
 
 {% block head %}
     <link rel="stylesheet" type="text/css" href="{% static "css/card.css" %}">
-
 {% endblock %}
-
 
 {% block content %}
     {% if products.count == 0 %}
         <br>
-        <h3>We are sorry. We couldn't find anything <i class="far fa-frown-open"></i></h3>
+        <h3>We are sorry. You didn't start any auction <i class="far fa-frown-open"></i></h3>
     {% endif %}
+
     <div class="band">
         {% for product in  products %}
-            {% if product.disponible %}
 
-            <a href="{% url 'product-detials' product.id %}" class="card">
+            <a class="card" href="{% url 'product-detials' product.id %}">
                 {% for p in product.productimage_set.all %}
                     {% if forloop.counter  == 1 %}
                         <img class="img-thumbnail" src="{{ p.image.url }}">
                     {% endif %}
                 {% endfor %}
 
-                {% if product.productimage_set.all.count == 0%}
+                {% if product.productimage_set.all.count == 0 %}
                     <img class="img-thumbnail" src="{% static 'default-hammer.jpg' %}">
                 {% endif %}
 
-                <article>
+                <article >
                     <h1>{{ product.name }}</h1>
                     <p> {{ product.description }}</p>
-                    <span>{{ product.profile.user.first_name }} {{ product.profile.user.last_name }}</span>
+                    <span>{{ product.profile.user.first_name }} {{ product.profile.user.last_name }} amos</span>
                 </article>
             </a>
-            {% endif %}
         {% endfor %}
     </div>
 

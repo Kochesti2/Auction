@@ -8,9 +8,13 @@
 
 
 {% block content %}
+    {% if products.count == 0 %}
+        <br>
+        <h3>We are sorry. We couldn't find anything <i class="far fa-frown-open"></i></h3>
+    {% endif %}
     <div class="band">
         {% for product in  products %}
-            {% if not product.disponible %}
+{#            {% if not product.disponible %}#}
 
             <a href="{% url 'product-detials' product.id %}" class="card">
                 {% for p in product.productimage_set.all %}
@@ -29,7 +33,7 @@
                     <span>{{ product.profile.user.first_name }} {{ product.profile.user.last_name }}</span>
                 </article>
             </a>
-            {% endif %}
+{#            {% endif %}#}
         {% endfor %}
     </div>
 

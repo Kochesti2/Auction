@@ -1,14 +1,35 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
     About
 {% endblock %}
 
+{% block head %}
+<style>
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+</style>
+{% endblock %}
+
 {% block content %}
-    <h1>About this site</h1>
-
-
+    <h1>Auction.com</h1>
+  <br>
+<img src="{% static "img/about-banner.jpg" %}"  class="center">
+    <br>
+        <br>
+        <br>
     <p>
         This is online auction. Here you can sell and buy movable and immovable assets.
     </p>
+    <p></p>
+<p>If you want to use our page you have to register on the site. It's free. You can bid and win a lot of assets directly from your computer. If you have something that you want to sell you can post it on our page.</p>
+<p>When you are logged in, only thing you have to do is to insert your information and after you can sell at most 3 objects. If you want to sell more you can become premium user. Once you are user you have the possibility to load up to 4 images of your product and control them from the beautiful and intuitive application.</p>
+<p>For any question mail us on <a href="mailto:admin@admin.com">admin@admin.com</a>&nbsp;we'll answer you as soon as possible.</p>
+<p></p>
+<p>Auction.com team</p>
 {% endblock %}

@@ -11,7 +11,6 @@ class Increment_price_form(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
-    # body = forms.TextInput(required=False)
     class Meta:
         model = Comment
         fields = ('body',)

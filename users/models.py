@@ -1,11 +1,7 @@
 import os
-from datetime import datetime
-
 from django.db import models
 from django.contrib.auth.models import ( AbstractBaseUser, BaseUserManager )
-from django.template.defaultfilters import slugify
 
-'''is_active=True,'''
 class UserManager(BaseUserManager):
     def create_user(self, email, first_name , last_name, password=None, tel="", is_premium = False,  is_staff=False, is_admin=False):
         if not email:
@@ -23,7 +19,6 @@ class UserManager(BaseUserManager):
         user_obj.premium = is_premium
         user_obj.staff = is_staff
         user_obj.admin = is_admin
-        # user_obj.is_active = is_active
         user_obj.save(using=self._db)
         return user_obj
 
@@ -138,11 +133,7 @@ class ProfileManager(BaseUserManager):
                 p.photo=photo
             p.save()
             return p
-
         return profile
-
-
-
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -150,7 +141,6 @@ class Profile(models.Model):
     city = models.CharField(max_length=254)
     address = models.CharField(max_length=254)
     zip_code = models.CharField(max_length=20)
-    rating = models.DecimalField(max_digits=5, decimal_places=2,blank = True,null=True)
     photo = models.ImageField(upload_to='photos/', blank=True, default='default-profile.jpg')
 
     objects = ProfileManager()

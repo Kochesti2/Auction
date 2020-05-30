@@ -1,17 +1,13 @@
 from functools import partial
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-
 from products.models import  Product
 from users.models import Profile
 
 User = get_user_model()
 
 class RegisterForm(forms.Form):
-    # username = forms.CharField()
     first_name = forms.CharField()
     last_name  = forms.CharField()
     email      = forms.EmailField()

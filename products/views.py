@@ -2,7 +2,6 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
-# Create your views here.
 from products.forms import Increment_price_form, CommentForm
 from products.models import Product, Comment
 from users.admin import User
@@ -22,7 +21,6 @@ def product_detail_view(request, **kwargs):
             user = request.user
             new_comment_body = comment_form.cleaned_data.get("body")
             Comment.objects.create(product_post=product_post,user=user,body=new_comment_body)
-            # Comment.save()
             return HttpResponseRedirect(request.path_info)
     else:
         comment_form=CommentForm()

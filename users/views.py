@@ -137,12 +137,10 @@ def profile_change(request):
     try:
         usr = request.user
     except:
-        # return HttpResponseRedirect('/users/profile')
         raise Http404
 
     try:
         usr.profile
-        # instance = get_object_or_404(Profile, id=request.user.id)
         form = Profile_user_form(request.POST or None,request.FILES )
     except:
         form = Profile_user_form(request.POST or None,request.FILES)

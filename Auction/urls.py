@@ -29,18 +29,6 @@ from django.conf import settings
 from background_task import background
 from django.contrib.auth.models import User
 
-
-# @background(schedule=5)
-# def job():
-#     print("i am working")
-#
-# job(repeat=5, repeat_until=None)
-# # job(1,schedule=30)
-# python manage.py process_tasks
-# pip install django-background-tasks
-
-
-
 urlpatterns = [
     path('', views.homeView, name='home'),
 

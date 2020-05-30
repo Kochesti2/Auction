@@ -77,3 +77,7 @@ class Comment(models.Model):
         email = self.user
         u = User.objects.filter(email=email)[:1].get()
         return u.last_name
+
+    @register.filter()
+    def get_time(self):
+        return datetime.date(self.created_on)

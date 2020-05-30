@@ -75,9 +75,6 @@ class UserAdminChangeForm(forms.ModelForm):
         fields = ('email', 'password', 'is_active', 'admin')
 
     def clean_password(self):
-        # Regardless of what the user provides, return the initial value.
-        # This is done here, rather than on the field, because the
-        # field does not have access to the initial value
         return self.initial["password"]
 
 DateInput = partial(forms.DateInput, {'class': 'datepicker'})
@@ -88,24 +85,6 @@ class new_auction_form(forms.Form):
     price      = forms.DecimalField(decimal_places=2,max_digits=10)
     min_increment  = forms.DecimalField(decimal_places=2,max_digits=10,label='Insert minimum increment of price allowed')
     end_date = forms.DateField(widget=DateInput(), label='Insert auction finish date')
-
-# class AuctionForm(forms.ModelForm):
-#     class Meta:
-#         model = Product
-#         fields = ['name','description','price','min_increment','end_date'] #make sure to mention field here, if nothing is mentioned then all will be required.
-#
-# class NoteFullForm(AuctionForm): #extending form
-#     images = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
-#
-#     class Meta(AuctionForm.Meta):
-#         fields = AuctionForm.Meta.fields + ['images',]
-
-
-# class ImageForm(forms.ModelForm):
-#     image = forms.ImageField(label='Image')
-#     class Meta:
-#         model = ProductImages
-#         fields = ('image', )
 
 
 class Profile_user_form(forms.ModelForm):

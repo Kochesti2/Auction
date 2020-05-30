@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 # Create your views here.
-from products.forms import Increment_price_form
+from products.forms import Increment_price_form, CommentForm
 from products.models import Product, Comment
 from users.admin import User
 
@@ -15,14 +15,17 @@ def product_detail_view(request, **kwargs):
     increment = product.min_increment+product.final_price
     product.user
 
-    comment_form = CommentForm(request.POST or None)
-    if comment_form.is_valid():
-        product_post = product
-        user = request.user
-        new_comment_body = comment_form.cleaned_data.get("body")
-        Comment.objects.create(product_post=product_post,user=user,body=new_comment_body)
-        # Comment.save()
-        return HttpResponseRedirect(request.path_info)
+    if len(request.POST) == 0 or len(request.POST) == 3:
+        comment_form = CommentForm(request.POST or None)
+        if comment_form.is_valid():
+            product_post = product
+            user = request.user
+            new_comment_body = comment_form.cleaned_data.get("body")
+            Comment.objects.create(product_post=product_post,user=user,body=new_comment_body)
+            # Comment.save()
+            return HttpResponseRedirect(request.path_info)
+    else:
+        comment_form=CommentForm()
 
 
     try:
@@ -50,6 +53,7 @@ def product_detail_view(request, **kwargs):
             product.user.add(request.user)
             increment = product.min_increment + product.final_price
             product.save()
+            form = Increment_price_form()
 
             u = User.objects.filter(email=product.winner)
             s_name = u.first().first_name
@@ -69,6 +73,8 @@ def product_detail_view(request, **kwargs):
             mine = False
     else:
         mine = False
+
+
     comments = Comment.objects.filter(product_post=product)
 
     context = {'object': product,'form':form,'winner_to_diplay':winner_to_display,'increment':increment,'mine':mine,'comments':comments,'comment_form':comment_form}
@@ -98,53 +104,8 @@ def search_view(request):
     return redirect('home')
 
 
-from .forms import CommentForm
-from django.shortcuts import render, get_object_or_404
 
 
-
-# def comment_detail_view(request, **kwargs):
-#     pk  = kwargs['id']
-#     product = get_object_or_404(Product, pk=pk)
-#
-#     if request.method == 'POST':
-#         query= request.POST.get('com')
-#         print("ci sono")
-#         if query != "":
-#             print(query)
-#             # products = Product.objects.filter(name__contains=query)
-#             # products = products.union(Product.objects.filter(description__contains=query))
-#             # context = {'comments': products}
-#             context = {}
-#             return render(request, 'products/productPage.html', context)
-#
-#     return redirect('home')
-
-
-# def post_detail(request, slug):
-#     template_name = 'post_detail.html'
-#     comment = get_object_or_404(Product, slug=slug)
-#     comments = comment.comments.filter(active=True)
-#     new_comment = None
-#     # Comment posted
-#     if request.method == 'POST':
-#         comment_form = CommentForm(data=request.POST)
-#         if comment_form.is_valid():
-#
-#             # Create Comment object but don't save to database yet
-#             new_comment = comment_form.save(commit=False)
-#             new_comment.
-#             # Assign the current post to the comment
-#             new_comment.product_post = comment
-#             # Save the comment to the database
-#             new_comment.save()
-#     else:
-#         comment_form = CommentForm()
-#
-#     return render(request, template_name, {'post': comment,
-#                                            'comments': comments,
-#                                            'new_comment': new_comment,
-#                                            'comment_form': comment_form})
 
 
 

@@ -44,6 +44,7 @@ These two libraries are used for checking if any auction is expired. *Uses redis
 
 ## How to run
 You need two terminal windows, one for actual **pipenv shell** other for **celery**.
+
 **First teminal** : 
 
 > `pipenv shell`

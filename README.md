@@ -23,16 +23,23 @@ Now you are ready to run `pipenv shell`.
 ## Libraries
 
 > `pip3 install celery`
+
 > `pip3 install redis`
 
 These two libraries are used for checking if any auction is expired. *Uses redis from heroku.com in this case.*
 
 > `pip3 install django-crispy-forms`
+
 > `pip3 install django-bootstrap-datepicker-plus`
+
 > `pip3 install schedule`
+
 > `pip3 install django-background-tasks`
+
 > `pip3 install pillow`
+
 > `pip3 install django-bootstrap4`
+
 > `pip3 install textdistance`
 
 ## How to run
@@ -40,11 +47,13 @@ You need two terminal windows, one for actual **pipenv shell** other for **celer
 **First teminal** : 
 
 > `pipenv shell`
+
 > `python manage.py startserver`
 
 **Second terminal** :
 
 > `pipenv shell`
+
 > `celery -A Auction worker -B --loglevel=INFO`
 
 *This starts celery*.
@@ -53,5 +62,6 @@ You need two terminal windows, one for actual **pipenv shell** other for **celer
 Testing of two functions and a view.
 
 > `python manage.py test products`
+
 > `python manage.py test users`
 

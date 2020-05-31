@@ -93,7 +93,6 @@ def search_view(request):
     if request.method == 'POST':
         query= request.POST.get('q')
         if query != "":
-            print(query)
             products = Product.objects.filter(name__contains=query)
             products = products.union(Product.objects.filter(description__contains=query))
             context = {'products': products}

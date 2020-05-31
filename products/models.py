@@ -17,7 +17,6 @@ class Product(models.Model):
     init_date = models.DateField(default=datetime.now, blank=True)
     winner = models.CharField(max_length=254, blank = True,null=True)
     final_price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name=" ", blank = True,null=True)
-    rating = models.FloatField(default = 0,blank = True,null=True)
     user = models.ManyToManyField(User,blank = True)#interested
     disponible = models.BooleanField(default=True) #sold or not
 

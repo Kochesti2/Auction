@@ -119,11 +119,11 @@ class ProfileManager(BaseUserManager):
 
         if crt:
             if photo == None:
-                profile = self.create(user=user, country=country, city=city, address=address, zip_code=zip_code,
-                                  rating=0)
+                profile = self.create(user=user, country=country, city=city, address=address, zip_code=zip_code
+                                  )
             else:
                 profile = self.create(user=user, country=country, city=city, address=address, zip_code=zip_code,
-                                  rating=0,photo=photo)
+                                  photo=photo)
         else:
             p.country = country
             p.city = city
